@@ -1,0 +1,8 @@
+kagglehub
+pandas
+ipykernel
+pyarrow
+scikit-learn
+nltk
+numpy
+streamlit
