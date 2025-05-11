@@ -2,6 +2,12 @@ import kagglehub
 import os
 
 def download_dataset():
+    
+    """
+    The function `download_dataset` downloads a dataset from Kaggle and saves it to a specified
+    directory.
+    """
+    
     raw_path = 'dataset/raw_data.csv'
     os.mkdir(raw_path, exist_ok=True)
     

@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import os
@@ -7,6 +6,23 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
 
 def user_collaboration(data_path='dataset/use/collaborative_df.csv', model_save_path='models/content.pkl'):
+    
+    """
+    The function `user_collaboration` builds a user-based collaborative filtering model for recommending
+    books based on user similarities.
+    
+    :param data_path: The `data_path` parameter in the `user_collaboration` function is the file path to
+    the CSV file containing the user collaborative data. This data is read into a DataFrame to perform
+    collaborative filtering for recommending books to users based on their similarities with other
+    users, defaults to dataset/use/collaborative_df.csv (optional)
+    :param model_save_path: The `model_save_path` parameter in the `user_collaboration` function is the
+    file path where the trained model will be saved as a pickle file. This model includes the user
+    similarity matrix (`user_sim_df`) and the user-books matrix (`user_books_matrix`), defaults to
+    models/content.pkl (optional)
+    :return: The `user_collaboration` function returns the `user_sim_df` and `user_books_matrix` after
+    saving the model in the specified `model_save_path`.
+    """
+    
     df = pd.read_csv(data_path, header=0)
 
     features = df[['User_id', 'Title', 'review/score']]

@@ -9,6 +9,25 @@ from nltk.corpus import stopwords
 import pickle
 
 def build_content_model(data_path='dataset/use/content_df.csv', model_save_path='models/content.pkl'):
+    
+    """
+    The function `build_content_model` preprocesses text data, calculates cosine similarity, and saves
+    the model for recommending books based on content.
+    
+    :param data_path: The `data_path` parameter in the `build_content_model` function is the file path
+    to the CSV file containing the content data. By default, it is set to 'dataset/use/content_df.csv'.
+    This CSV file likely contains information about titles, descriptions, authors, published dates,
+    categories, and, defaults to dataset/use/content_df.csv (optional)
+    :param model_save_path: The `model_save_path` parameter in the `build_content_model` function is the
+    file path where the trained content model will be saved as a pickle file. This model file will
+    contain the cosine similarity matrix (`cos_sim`) and the TF-IDF vectorizer (`tf`) used for
+    content-based recommendations, defaults to models/content.pkl (optional)
+    :return: The function `build_content_model` returns the following three objects:
+    1. `features`: DataFrame containing the processed features extracted from the input data.
+    2. `cos_sim`: The cosine similarity matrix calculated based on the TF-IDF vectors of the content.
+    3. `tf`: The TF-IDF vectorizer object used to transform the content data.
+    """
+    
     df = pd.read_csv(data_path)
     features = df[['Title', 'description', 'authors', 'publishedDate', 'categories', 'publisher']]
     features['publishedYear'] = features['publishedDate'].str[:4]
