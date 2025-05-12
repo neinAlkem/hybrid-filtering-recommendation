@@ -10,6 +10,10 @@ Developed using Python, the system leverages libraries like Scikit-learn for mac
 2. **Deliver Persoanlized Book Recommendations**: A core objective is to provide highly personalized suggestions by analyzing both individual user preferences (such as past ratings or book selections) and behavioral similarities with other users. By utilizing techniques like cosine similarity and TF-IDF vectorization.
 3. **Build a Real-Time, User Friendly Web Application**: To make the recommendation system accessible and engaging, the project includes the development of a Streamlit-based web interface.
 
+## Project Dataset
+
+https://www.kaggle.com/datasets/mohamedbakhet/amazon-books-reviews?select=Books_rating.csv
+
 ## Tech Stack
 
 - kagglehub
