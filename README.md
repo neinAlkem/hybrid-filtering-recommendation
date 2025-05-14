@@ -52,7 +52,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Project Documenation
+## Project Documentation
 
 `Web app screenshoot`
 
