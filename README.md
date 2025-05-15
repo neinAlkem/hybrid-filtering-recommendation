@@ -1,5 +1,7 @@
 # HYBRID FILTERING BOOKS RECOMMENDATION SYSTEM
 
+![Streamlit Screenshoot](assets/image2.png)
+
 The Hybrid Filtering Books Recommendation System is an intelligent and scalable recommendation engine that combines both collaborative filtering and content-based filtering techniques to deliver more accurate and personalized book suggestions. Collaborative filtering analyzes user preferences and behavior to identify similar users and recommend books based on their ratings, while content-based filtering evaluates book features—such as titles, genres, and descriptions—to suggest items similar to those a user has liked before. By merging these approaches, the system effectively addresses the limitations of each individual method, such as the cold-start problem or lack of diversity, resulting in a more robust and user-centric recommendation experience.
 
 Developed using Python, the system leverages libraries like Scikit-learn for machine learning tasks such as text vectorization (TfidfVectorizer) and similarity computation (pairwise_distances). Data handling is performed using Pandas and NumPy, ensuring efficient processing of user ratings and book metadata. The front end is built with Streamlit, offering an intuitive, interactive web application where users can search for books or receive personalized recommendations in real time. This hybrid model delivers a powerful demonstration of how blending collaborative and content-based methods can significantly improve recommendation quality in real-world applications.
@@ -11,7 +13,6 @@ Developed using Python, the system leverages libraries like Scikit-learn for mac
 3. **Build a Real-Time, User Friendly Web Application**: To make the recommendation system accessible and engaging, the project includes the development of a Streamlit-based web interface.
 
 ## Project Dataset
-
 https://www.kaggle.com/datasets/mohamedbakhet/amazon-books-reviews?select=Books_rating.csv
 
 ## Tech Stack
@@ -56,4 +57,4 @@ streamlit run app.py
 
 `Web app screenshoot`
 
-![Streamlit Screenshoot](assets/image.png)
+![Streamlit Screenshoot](assets/image1.png)
