@@ -44,14 +44,30 @@ def category_hit(rec_books, test_books, df_all):
 
     return int(bool(test_cats & rec_cats))
 
-def average_precision(recommended, relevant):
+def average_precision_by_category(recommended, test_books, df_all):
+    # Extract test categories
+    test_cats = df_all[df_all['Title'].str.lower().isin(test_books)]['categories'].dropna().str.lower().str.split(', ')
+    test_cats = set(cat for sublist in test_cats for cat in sublist)
+
+    if not test_cats:
+        return 0.0
+
+    # Evaluate relevance of each recommended book
+    relevant_flags = []
+    for book in recommended:
+        book_cats = df_all[df_all['Title'].str.lower() == book]['categories'].dropna().str.lower().str.split(', ')
+        book_cats = set(cat for sublist in book_cats for cat in sublist)
+        is_relevant = bool(test_cats & book_cats)
+        relevant_flags.append(is_relevant)
+
+    # Compute average precision
     score = 0.0
-    hit = 0
-    for i, item in enumerate(recommended):
-        if item in relevant:
-            hit += 1
-            score += hit / (i + 1)
-    return score / len(relevant) if relevant else 0
+    hit_count = 0
+    for idx, is_rel in enumerate(relevant_flags):
+        if is_rel:
+            hit_count += 1
+            score += hit_count / (idx + 1)
+    return score / hit_count if hit_count else 0.0
 
 
 # ================================
@@ -59,7 +75,7 @@ def average_precision(recommended, relevant):
 # ================================
 
 def evaluate_hybrid_model(user_ids, user_books_matrix, df, features, cos_sim, user_sim_df, df_all, k=10):
-    precision_scores, recall_scores, f1_scores, hit_scores = [], [], [], []
+    precision_scores, recall_scores, f1_scores, hit_scores, avgprec_scores = [], [], [], [], []
     failed_users = []
 
     df['Title'] = df['Title'].str.lower()
@@ -104,13 +120,16 @@ def evaluate_hybrid_model(user_ids, user_books_matrix, df, features, cos_sim, us
                 cat_recall = category_recall_at_k(hybrid, test_books, df_all)
                 cat_f1 = category_f1(cat_precision, cat_recall)
                 cat_hit = category_hit(hybrid, test_books, df_all)
+                avg_prec = average_precision_by_category(hybrid, test_books, df_all)
+
 
                 precision_scores.append(cat_precision)
                 recall_scores.append(cat_recall)
                 f1_scores.append(cat_f1)
                 hit_scores.append(cat_hit)
+                avgprec_scores.append(avg_prec)
 
-                writer.writerow([user_id, "; ".join(test_books), "; ".join(hybrid), cat_precision, cat_recall, cat_f1, cat_hit])
+                writer.writerow([user_id, "; ".join(test_books), "; ".join(hybrid), cat_precision, cat_recall, cat_f1, cat_hit, avg_prec])
                 # print(f"User {user_id} | Test: {test_books} | Cat Precision: {cat_precision:.4f} | Recall: {cat_recall:.4f} | F1: {cat_f1:.4f} | Hit: {cat_hit}")
 
             except Exception as e:
@@ -122,6 +141,7 @@ def evaluate_hybrid_model(user_ids, user_books_matrix, df, features, cos_sim, us
     print(f"Average Category Recall@{k}: {np.mean(recall_scores):.4f}")
     print(f"Average Category F1@{k}: {np.mean(f1_scores):.4f}")
     print(f"Hit Rate: {np.mean(hit_scores):.4f}")
+    print(f"Average Precision: {np.mean(avgprec_scores):.4f}")
 
     if failed_users:
         with open('evaluation_failed_users.csv', mode='w', newline='', encoding='utf-8') as f:
